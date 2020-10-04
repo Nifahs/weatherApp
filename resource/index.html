@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Temperature Hot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url(images/bg-image.jpg) no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="col-md-6 m-auto py-5">
+            <div class="input-group mb-3">
+                <input type="text" id="inputCity" class="form-control" placeholder="Enter a location for Weather ...">
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-danger" id="search">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="weather-status text-white text-center">
+            <img id="iconWeather" src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
+            
+            <h1 id="cityid">Dhaka</h1>
+            <h3><span id="tempid">38.06</span>&deg;C</h3>
+            <h1 id="lead">Clouds</h1>
+            <h6 id="description" style="color: yellow;"></h6>
+        </div>
+    </div>
+
+    <script>
+        
+        document.getElementById("search").addEventListener("click", function() {
+            const cityname = document.getElementById('inputCity').value;
+            var url = 'https://api.openweathermap.org/data/2.5/weather?q='+cityname+'&units=metric&appid=1ca640009be890d0a34114296d380134';
+            
+            fetch(url)
+            .then(res=> res.json())
+            .then(data=>{
+            console.log(data);
+            const iconCode= data.weather[0].icon;
+            const iconimage = "https://openweathermap.org/img/wn/"+iconCode+"@2x.png";
+            
+            document.getElementById('iconWeather').src = iconimage;
+            const temperature = data.main.temp;
+            document.getElementById('tempid').innerText= temperature;
+            const city = data.name;
+            document.getElementById('cityid').innerText = city;
+            const condition = data.weather[0].main;
+            document.getElementById('lead').innerText = condition;
+            const description = data.weather[0].description;
+            document.getElementById('description').innerText = description;
+
+        })
+
+    });
+        
+    </script>
+
+</body>
+
+</html>
